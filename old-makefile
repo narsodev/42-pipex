@@ -1,8 +1,8 @@
 NAME = pipex
 
-SRC = main.c args.c utils.c
+SRC = pipex.c
 
-OBJS = main.o args.o utils.o
+OBJS = pipex.o
 
 CC = gcc
 
