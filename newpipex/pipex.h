@@ -3,33 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngonzale <ngonzale@student.42malaga.com>   +#+  +:+       +#+        */
+/*   By: narso </var/spool/mail/narso>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/11 17:28:16 by ngonzale          #+#    #+#             */
-/*   Updated: 2022/08/17 01:00:11 by narso            ###   ########.fr       */
+/*   Created: 2022/08/30 14:15:27 by narso             #+#    #+#             */
+/*   Updated: 2022/08/30 14:44:57 by narso            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPEX_H
 # define PIPEX_H
 
-# include "libft.h"
+#include "libft.h"
 
-# define FILE_READ 0
-# define FILE_WRITE 1
-# define COMMAND 2
-
-typedef struct s_command {
+typedef struct	s_command {
 	char	*path;
-	char	**args;
-	int 	type;
-	int		fd_read;
-}				t_command;
+	int	type;
+}		t_command;
 
-t_list	*ft_parse_args(int argc, char **argv);
+// Checker
+void	ft_check_args(int argc);
 
-void	ft_free_command(void *content);
-
-void	ft_exec(t_command *command, char **envp);
+// Args
+t_list *ft_get_commands(char **argv);
 
 #endif

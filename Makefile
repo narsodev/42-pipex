@@ -1,18 +1,18 @@
 NAME = pipex
 
-SRC = main.c args.c utils.c
+SRC = main.c args.c utils.c exec.c
 
-OBJS = main.o args.o utils.o
+OBJS = main.o args.o utils.o exec.o
 
 CC = gcc
 
 INCLUDE = -I libft -L libft -l ft
 
 %.o:	%.c
-	$(CC) -I libft -c $< -o $@
+	$(CC) -c $< -o $@ $(INCLUDE)
 
 $(NAME): $(OBJS)
-	$(CC) $(INCLUDE) $(OBJS) -o $(NAME)
+	$(CC) $(OBJS) -o $(NAME) $(INCLUDE)
 
 all: $(NAME)
 

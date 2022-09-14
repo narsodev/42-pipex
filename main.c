@@ -6,7 +6,7 @@
 /*   By: ngonzale <ngonzale@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 17:32:48 by ngonzale          #+#    #+#             */
-/*   Updated: 2022/08/11 20:09:18 by ngonzale         ###   ########.fr       */
+/*   Updated: 2022/08/17 01:30:28 by narso            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,26 +20,34 @@ void	ft_print_command(void *content)
 	size_t		i;
 
 	command = (t_command *) content;
-	//if (!fd_read)
-	//	ft_open_file();
 	i = 0;
 }
 
-void	ft_exec_commands(t_list *commands)
+void	ft_manage_command(t_list *commands, char **envp)
+{
+	t_command *command;
+
+	command = (t_command *) commands;
+	ft_exec(command, envp);
+}
+
+void	ft_exec_commands(t_list *commands, char **envp)
 {
 	t_command	*command;
 
 	while (commands)
 	{
 		command = (t_command *) commands->content;
+		ft_printf("path: %s, fd: %d\n", command->path, command->fd_read);
 		if (command->type == FILE_READ)
-			((t_command *)commands->next->content)->fd_read = open(command->args[0], O_RDONLY);
-		ft_printf("fd: %d\n", command->fd_read);
+			((t_command *)commands->next->content)->fd_read = open(command->path, O_RDONLY);
+		else if (command->type == COMMAND)
+			ft_manage_command(commands, envp);
 		commands = commands->next;
 	}
 }
 
-int	main(int argc, char **argv)
+int	main(int argc, char **argv, char **envp)
 {
 	t_list *commands;
 
@@ -50,6 +58,6 @@ int	main(int argc, char **argv)
 	}
 
 	commands = ft_parse_args(argc, argv);
-	ft_exec_commands(commands);
+	ft_exec_commands(commands, envp);
 
 }

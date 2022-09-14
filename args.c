@@ -6,7 +6,7 @@
 /*   By: ngonzale <ngonzale@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 17:32:42 by ngonzale          #+#    #+#             */
-/*   Updated: 2022/08/11 20:08:12 by ngonzale         ###   ########.fr       */
+/*   Updated: 2022/08/17 01:15:23 by narso            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,7 @@ t_list	*ft_parse_args(int argc, char **argv)
 	t_command	*open_file;
 	open_file = ft_calloc(1, sizeof(t_command));
 	open_file->type = FILE_READ;
-	open_file->args = ft_calloc(2, sizeof(char *));
-	open_file->args[0] = ft_strdup(argv[1]);
+	open_file->path = ft_strdup(argv[1]);
 	commands = ft_lstnew(open_file);
 	i = 2;
 	while (i < argc - 1)
@@ -44,8 +43,7 @@ t_list	*ft_parse_args(int argc, char **argv)
 	t_command *close_file;
 	close_file = ft_calloc(1, sizeof(t_command));
 	close_file->type = FILE_WRITE;
-	close_file->args = ft_calloc(2, sizeof(char *));
-	close_file->args[0] = ft_strdup(argv[argc - 1]);
+	close_file->path = ft_strdup(argv[argc - 1]);
 	ft_lstadd_back(&commands, ft_lstnew(close_file));
 
 	return (commands);
@@ -57,6 +55,7 @@ t_command	*ft_get_command(char *arg)
 
 	command = ft_calloc(1, sizeof(t_command));
 	command->args = ft_parse_command(arg);
+	command->path = ft_strdup(command->args[0]);
 	command->type = COMMAND;
 	if (!command->args)
 	{
