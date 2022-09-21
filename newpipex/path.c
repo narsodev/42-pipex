@@ -6,7 +6,7 @@
 /*   By: ngonzale <ngonzale@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 17:47:33 by ngonzale          #+#    #+#             */
-/*   Updated: 2022/09/16 18:26:50 by ngonzale         ###   ########.fr       */
+/*   Updated: 2022/09/20 20:24:04 by ngonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,19 @@ char	*ft_path_is_ok(char *command, char *env_path)
 	return (NULL);
 }
 
+int	ft_is_slash(size_t i, char c)
+{
+	(void)i;
+	return (c == '/');
+}
+
 char	*ft_find_path(char *command, char *env_path)
 {
 	char	**paths;
 	char	**ptr;
 	char	*path;
-	
-	if (command[0] == '/' || !ft_strncmp(command, "./", 2) || !ft_strncmp(command, "../", 3))
+
+	if (ft_strsome(command, ft_is_slash))
 		return (ft_strdup(command));
 	paths = ft_split(env_path, ':');
 	if (!paths)

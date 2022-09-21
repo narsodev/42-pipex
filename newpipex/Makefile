@@ -6,7 +6,7 @@
 #    By: ngonzale <ngonzale@student.42malaga.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/16 18:27:36 by ngonzale          #+#    #+#              #
-#    Updated: 2022/09/16 18:38:07 by ngonzale         ###   ########.fr        #
+#    Updated: 2022/09/21 17:32:12 by ngonzale         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME		:= pipex
 SRC_DIR		:= .
 OBJ_DIR		:= .
 
-FILES		:= main parser path commands exec path checker
+FILES		:= main parser path commands commands_helper exec path checker
 
 SRCS		:= $(addsuffix .c, $(addprefix $(SRC_DIR)/, $(FILES)))
 
