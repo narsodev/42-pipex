@@ -6,14 +6,13 @@
 /*   By: ngonzale <ngonzale@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 17:16:53 by ngonzale          #+#    #+#             */
-/*   Updated: 2022/09/20 20:31:04 by ngonzale         ###   ########.fr       */
+/*   Updated: 2022/09/22 19:15:19 by ngonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include "libft.h"
 #include "pipex.h"
 
 void	ft_exec_child(t_command *command, int ptc[2], int ctp[2], char **envp)

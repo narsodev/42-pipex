@@ -6,7 +6,7 @@
 /*   By: narso </var/spool/mail/narso>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 14:15:27 by narso             #+#    #+#             */
-/*   Updated: 2022/09/19 21:09:22 by ngonzale         ###   ########.fr       */
+/*   Updated: 2022/09/22 19:21:29 by ngonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,17 @@ typedef struct s_command {
 	int		type;
 	int		fd_input;
 	int		fd_output;
-	int		fd_opened;
 }		t_command;
 
 // Checker
 void	ft_check_args(int argc);
 
-// Args
-t_list	*ft_get_commands(char **argv, int argc, char *env_path);
-
 // Commands
+t_list	*ft_get_commands(char **argv, int argc, char **env_paths);
 void	ft_execute_command(t_list *lstcommand, char **envp);
-t_list	*ft_create_command(char *argv, int type, char *env_path);
+t_list	*ft_create_command(char *argv, int type, char **env_paths);
 void	ft_free_command(void *content);
+void	ft_free_env_paths(char **env_paths);
 
 // Parser
 char	**ft_parse_command(char *arg);
@@ -46,7 +44,7 @@ char	**ft_parse_command(char *arg);
 int		ft_exec(t_command *command, char **envp);
 
 // Path
-char	*ft_get_env_path(char **envp);
-char	*ft_find_path(char *command, char *env_path);
+char	**ft_get_env_paths(char **envp);
+char	*ft_find_path(char *command, char **env_paths);
 
 #endif

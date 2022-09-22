@@ -6,7 +6,7 @@
 /*   By: ngonzale <ngonzale@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 17:47:33 by ngonzale          #+#    #+#             */
-/*   Updated: 2022/09/20 20:24:04 by ngonzale         ###   ########.fr       */
+/*   Updated: 2022/09/22 18:38:08 by ngonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,40 +38,37 @@ int	ft_is_slash(size_t i, char c)
 	return (c == '/');
 }
 
-char	*ft_find_path(char *command, char *env_path)
+char	*ft_find_path(char *command, char **env_paths)
 {
-	char	**paths;
 	char	**ptr;
 	char	*path;
 
 	if (ft_strsome(command, ft_is_slash))
 		return (ft_strdup(command));
-	paths = ft_split(env_path, ':');
-	if (!paths)
-		return (NULL);
-	ptr = paths;
+	ptr = env_paths;
 	path = NULL;
-	while (*ptr)
+	while (*ptr && !path)
 	{
-		if (!path)
-			path = ft_path_is_ok(command, *ptr);
-		free(*ptr);
+		path = ft_path_is_ok(command, *ptr);
 		ptr++;
 	}
-	free(paths);
 	return (path);
 }
 
-char	*ft_get_env_path(char **envp)
+char	**ft_get_env_paths(char **envp)
 {
 	char	**ptr;
+	char	**paths;
 
 	ptr = envp;
 	while (*ptr)
 	{
 		if (!ft_strncmp(*ptr, "PATH=", 5))
-			return (*ptr + 5);
+		{
+			paths = ft_split(*ptr + 5, ':');
+			return (paths);
+		}
 		ptr++;
 	}
-	return (NULL);
+	return (ft_calloc(1, sizeof(char *)));
 }
