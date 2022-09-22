@@ -6,7 +6,7 @@
 /*   By: ngonzale <ngonzale@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 17:16:53 by ngonzale          #+#    #+#             */
-/*   Updated: 2022/09/22 19:15:19 by ngonzale         ###   ########.fr       */
+/*   Updated: 2022/09/22 19:33:17 by ngonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ void	ft_exec_child(t_command *command, int ptc[2], int ctp[2], char **envp)
 		dup2(command->fd_output, STDOUT_FILENO);
 	else
 		dup2(ctp[1], STDOUT_FILENO);
+	if (!command->path)
+		command->path = ft_strdup("");
 	execve(command->path, command->args, envp);
 	perror("execve");
 	exit(EXIT_FAILURE);

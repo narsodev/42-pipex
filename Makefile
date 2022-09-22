@@ -6,7 +6,7 @@
 #    By: ngonzale <ngonzale@student.42malaga.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/16 18:27:36 by ngonzale          #+#    #+#              #
-#    Updated: 2022/09/22 16:26:30 by ngonzale         ###   ########.fr        #
+#    Updated: 2022/09/22 19:32:11 by ngonzale         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,9 +37,11 @@ all:		$(NAME)
 
 clean:
 	$(RM) $(OBJ_DIR)
+	make clean -C $(LIBFT)
 
 fclean:		clean
 	$(RM) $(NAME)
+	make fclean -C $(LIBFT)
 
 re:			fclean all
 
