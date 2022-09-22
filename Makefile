@@ -1,27 +1,58 @@
-NAME = pipex
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: ngonzale <ngonzale@student.42malaga.com>   +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2022/09/16 18:27:36 by ngonzale          #+#    #+#              #
+#    Updated: 2022/09/22 16:26:30 by ngonzale         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
-SRC = main.c args.c utils.c exec.c
+NAME		:= pipex
 
-OBJS = main.o args.o utils.o exec.o
+SRC_DIR		:= src
+OBJ_DIR		:= obj
 
-CC = gcc
+FILES		:= main parser path commands commands_helper exec checker
 
-INCLUDE = -I libft -L libft -l ft
+SRCS		:= $(addsuffix .c, $(addprefix $(SRC_DIR)/, $(FILES)))
 
-%.o:	%.c
-	$(CC) -c $< -o $@ $(INCLUDE)
+OBJS		:= $(addsuffix .o, $(addprefix $(OBJ_DIR)/, $(FILES)))
 
-$(NAME): $(OBJS)
-	$(CC) $(OBJS) -o $(NAME) $(INCLUDE)
+LIBFT		:= libft
 
-all: $(NAME)
+CC			:= gcc
+
+CFLAGS		:= -Wall -Wextra -Werror
+
+INCLUDE		:= -I $(LIBFT) -I .
+
+LIB			:= -L $(LIBFT) -l ft
+
+RM			:= rm -rf
+
+all:		$(NAME)
 
 clean:
-	rm -f $(OBJS)
+	$(RM) $(OBJ_DIR)
 
-fclean:	clean
-	rm -f $(NAME)
+fclean:		clean
+	$(RM) $(NAME)
 
-re:	fclean	all
+re:			fclean all
 
-.PHONY: all bonus clean fclean re
+$(NAME):	$(OBJS) | $(LIBFT)/libft.a
+	gcc $(LIB) -o $(NAME) $^
+	
+$(LIBFT)/libft.a:
+	make -C $(LIBFT)
+
+$(OBJS): $(OBJ_DIR)/%.o : $(SRC_DIR)/%.c | $(OBJ_DIR)
+	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
+
+$(OBJ_DIR):
+	mkdir -p $@
+
+.PHONY: all clean fclean re
