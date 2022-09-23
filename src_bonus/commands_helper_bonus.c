@@ -6,7 +6,7 @@
 /*   By: ngonzale <ngonzale@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 17:31:05 by ngonzale          #+#    #+#             */
-/*   Updated: 2022/09/22 20:19:12 by ngonzale         ###   ########.fr       */
+/*   Updated: 2022/09/23 18:53:50 by ngonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,16 @@
 
 void		ft_close_command_fd(void *content);
 void		ft_free_command(void *content);
-t_list		*ft_create_command(char *argv, int type, char **env_paths);
+t_list		*ft_create_command(char *argv, int type, char **env_paths, char *limiter);
 static void	ft_create_command_helper(t_list **command,
-				t_command **content, int type);
+				t_command **content, int type, char *limiter);
 
-t_list	*ft_create_command(char *argv, int type, char **env_paths)
+t_list	*ft_create_command(char *argv, int type, char **env_paths, char *limiter)
 {
 	t_list		*command;
 	t_command	*content;
 
-	ft_create_command_helper(&command, &content, type);
+	ft_create_command_helper(&command, &content, type, limiter);
 	if (!command)
 		return (NULL);
 	if (type == TYPE_COMMAND)
@@ -82,7 +82,7 @@ void	ft_free_command(void *content)
 }
 
 static void	ft_create_command_helper(t_list **command,
-		t_command **content, int type)
+		t_command **content, int type, char *limiter)
 {
 	*command = NULL;
 	*content = ft_calloc(1, sizeof(t_command));
@@ -93,6 +93,11 @@ static void	ft_create_command_helper(t_list **command,
 		free(*content);
 	(*content)->fd_input = STDIN_FILENO;
 	(*content)->fd_output = STDOUT_FILENO;
+	(*content)->args = NULL;
+	if (type == TYPE_FILE_WRITE && limiter)
+		type = TYPE_FILE_APPEND;
+	else if (type == TYPE_FILE_READ && limiter)
+		(*content)->here_doc = ft_strdup(limiter);
 	(*content)->type = type;
 }
 

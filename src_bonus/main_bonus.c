@@ -6,7 +6,7 @@
 /*   By: narso </var/spool/mail/narso>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 14:21:13 by narso             #+#    #+#             */
-/*   Updated: 2022/09/22 20:19:34 by ngonzale         ###   ########.fr       */
+/*   Updated: 2022/09/23 18:23:53 by ngonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,16 @@ int	main(int argc, char **argv, char **envp)
 	t_list		*cur_command;
 	t_command	*command;
 	char		**env_paths;
+	char		*limiter;
 
-	ft_check_args(argc);
+	limiter = ft_check_args(argc, argv);
 	env_paths = ft_get_env_paths(envp);
 	if (!env_paths)
 		return (EXIT_FAILURE);
-	commands = ft_get_commands(argv + 1, argc - 1, env_paths);
+	if (limiter)
+		commands = ft_get_commands(argv + 2, argc - 2, env_paths, limiter);
+	else
+		commands = ft_get_commands(argv + 1, argc - 1, env_paths, NULL);
 	if (!commands)
 	{
 		ft_free_env_paths(env_paths);

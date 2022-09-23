@@ -6,7 +6,7 @@
 /*   By: narso </var/spool/mail/narso>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 14:15:27 by narso             #+#    #+#             */
-/*   Updated: 2022/09/22 20:18:21 by ngonzale         ###   ########.fr       */
+/*   Updated: 2022/09/23 18:44:25 by ngonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@
 
 # define TYPE_FILE_READ 0
 # define TYPE_FILE_WRITE 1
-# define TYPE_COMMAND 2
+# define TYPE_FILE_APPEND 2
+# define TYPE_COMMAND 3
 
 typedef struct s_command {
 	char	*path;
@@ -25,15 +26,16 @@ typedef struct s_command {
 	int		type;
 	int		fd_input;
 	int		fd_output;
+	char	*here_doc;
 }		t_command;
 
 // Checker
-void	ft_check_args(int argc);
+char	*ft_check_args(int argc, char **argv);
 
 // Commands
-t_list	*ft_get_commands(char **argv, int argc, char **env_paths);
+t_list	*ft_get_commands(char **argv, int argc, char **env_paths, char *limiter);
 void	ft_execute_command(t_list *lstcommand, char **envp);
-t_list	*ft_create_command(char *argv, int type, char **env_paths);
+t_list	*ft_create_command(char *argv, int type, char **env_paths, char *limiter);
 void	ft_free_command(void *content);
 void	ft_free_env_paths(char **env_paths);
 
