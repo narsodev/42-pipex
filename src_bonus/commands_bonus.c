@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: narso </var/spool/mail/narso>              +#+  +:+       +#+        */
+/*   By: ngonzale <ngonzale@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 14:17:50 by narso             #+#    #+#             */
-/*   Updated: 2022/09/23 19:11:31 by ngonzale         ###   ########.fr       */
+/*   Updated: 2022/09/26 19:57:18 by ngonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ t_list	*ft_get_commands(char **argv, int argc, char **env_paths, char *limiter)
 	t_list	*aux;
 	int		i;
 
-	// usar como path el here doc
 	commands = ft_create_command(argv[0], TYPE_FILE_READ, NULL, limiter);
 	if (!commands)
 		return (NULL);
