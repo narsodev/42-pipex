@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands_helper_bonus.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngonzale <ngonzale@student.42malaga.com>   +#+  +:+       +#+        */
+/*   By: ngonzale <ngonzale@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 17:31:05 by ngonzale          #+#    #+#             */
-/*   Updated: 2022/09/23 18:53:50 by ngonzale         ###   ########.fr       */
+/*   Updated: 2022/09/26 19:44:34 by ngonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,13 @@
 
 void		ft_close_command_fd(void *content);
 void		ft_free_command(void *content);
-t_list		*ft_create_command(char *argv, int type, char **env_paths, char *limiter);
+t_list		*ft_create_command(char *argv, int type, char **env_paths,
+				char *limiter);
 static void	ft_create_command_helper(t_list **command,
 				t_command **content, int type, char *limiter);
 
-t_list	*ft_create_command(char *argv, int type, char **env_paths, char *limiter)
+t_list	*ft_create_command(char *argv, int type, char **env_paths,
+	char *limiter)
 {
 	t_list		*command;
 	t_command	*content;

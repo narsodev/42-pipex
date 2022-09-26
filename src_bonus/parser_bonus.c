@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
+/*   parser_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ngonzale <ngonzale@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/14 20:47:26 by ngonzale          #+#    #+#             */
-/*   Updated: 2022/09/20 20:52:01 by ngonzale         ###   ########.fr       */
+/*   Created: 2022/09/26 19:43:27 by ngonzale          #+#    #+#             */
+/*   Updated: 2022/09/26 19:43:30 by ngonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,37 +41,85 @@ void	ft_count_args(char *command, size_t *argc)
 	}
 }
 
+void	ft_join_strs(char **string, char **aux, size_t i)
+{
+	char	*string_aux;
+
+	*string = ft_strdup("");
+	if (!*string)
+	{
+		while (aux[i])
+			free(aux[i++]);
+		free(aux);
+		return ;
+	}
+	i = 0;
+	while (aux[i])
+	{
+		if (*string)
+		{
+			string_aux = *string;
+			*string = ft_strjoin(*string, aux[i]);
+			free(string_aux);
+		}
+		free(aux[i]);
+		i++;
+	}
+	free(aux);
+}
+
 void	ft_manipulate_arg(char **string)
 {
-	char	**aux;
+	char	*string_aux;
 	char	*s;
-	size_t	j;
+	char	**aux;
 
 	if (*string[0] == '\'' || *string[0] == '\"')
 	{
 		s = ft_calloc(2, sizeof(char));
+		if (!s)
+		{
+			free(string);
+			*string = NULL;
+			return ;
+		}
 		s[0] = *string[0];
+		string_aux = *string;
 		*string = ft_strtrim(*string, s);
+		free(string_aux);
+		free(s);
+		if (!*string)
+			return ;
 	}
 	aux = ft_split(*string, '\\');
-	*string = ft_strdup("");
-	j = 0;
-	while (aux[j])
-	{
-		*string = ft_strjoin(*string, aux[j]);
-		j++;
-	}
+	free(*string);
+	if (aux)
+		ft_join_strs(string, aux, 0);
 }
 
-void	ft_separate_command(char **strings, char *ptr,
+void	ft_separate_command(char ***strings, char *ptr,
 		size_t argc, size_t i)
 {
+	size_t	j;
+
 	while (++i < argc)
 	{
 		while (!*ptr)
 			ptr++;
-		strings[i] = ft_strdup(ptr);
-		ft_manipulate_arg(strings + i);
+		(*strings)[i] = ft_strdup(ptr);
+		if ((*strings)[i])
+			ft_manipulate_arg(*strings + i);
+		if (!(*strings)[i])
+		{
+			j = 0;
+			while (j < i)
+			{
+				free((*strings)[j]);
+				j++;
+			}
+			free(*strings);
+			*strings = NULL;
+		}
 		while (*ptr)
 			ptr++;
 	}
@@ -95,7 +143,7 @@ char	**ft_parse_command(char *arg)
 		return (NULL);
 	}
 	ptr = clean_command;
-	ft_separate_command(strings, ptr, argc, -1);
+	ft_separate_command(&strings, ptr, argc, -1);
 	free(clean_command);
 	return (strings);
 }
